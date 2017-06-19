@@ -1,0 +1,34 @@
+baseurl = "http://localhost:1313/"
+theme= "hugo-steam-theme"
+PygmentsCodeFences = true
+# solarizeddark
+pygmentsstyle = "solarizedlight"
+ignoreFiles = [ "\\.org", "\\.html" ]
+
+
+[params]
+    DateForm = "2.1.2006"
+    themecolor = "green"
+    title = "Jürgen Hötzel"
+    # subtitle = "a minimal theme for ~~Ghost~~ Hugo"
+    copyright = "Released under the MIT license."
+    # Link custom assets relative to /static
+    favicon   = "favicon.ico"
+    customCSS = []
+    customJS  = []
+    # To provide some metadata for search engines and the about section in the footer
+    # feel free to add a few information about you and your website.
+    name = "Jürgen Hötzel"
+    bio = "Emacs/FP aficionado"
+    description = "I do stuff with my bare hands"
+   # Link your social networks (optional)
+    location = ""
+    twitter = "juergenhoetzel"
+    stackoverflow = "users/308679"
+    linkedin = ""
+    googleplus = ""
+    facebook = ""
+    instagram = ""
+    github = "juergenhoetzel"
+    gitlab = ""
+    bitbucket = ""

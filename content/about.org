@@ -1,0 +1,23 @@
+#+TITLE: About
+#+DESCRIPTION: "Finally started a Blog in the year 2017."
+#+DATE: 2017-06-15
+#+MENU: main
+#+HIDE: true
+#+SLUG: about
+
+* Me
+
+  - Studied /Computer Science and Business Informatics/ at [[https://www.uni-mannheim.de/1/english/][University of Mannheim]]
+  - [[https://www.gnu.org/software/emacs/][GNU Emacs]] aficionado
+  - [[https://www.archlinux.org/people/developers/#juergen][Arch Linux developer]]
+  - Keen on functional programming languages
+
+* This site
+
+This site is build with [[http://orgmode.org/][Org mode]], [[https://gohugo.io/][Hugo]] and [[http://pandoc.org/][Pandoc]].
+
+The posts are written in [[http://orgmode.org/manual/Markup.html][Org mode markup]] and exported to [[https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet][GitHub Flavored Markdown]] using a
+[[https://github.com/juergenhoetzel/ox-pandoc/tree/fix_markdown_extensions][fork of ox-pandoc]].
+
+
+

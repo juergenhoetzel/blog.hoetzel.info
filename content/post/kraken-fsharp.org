@@ -1,0 +1,79 @@
+#+TITLE: Literate programming in F-Sharp using org-mode
+#+DESCRIPTION: Use fsharp-babel in your Org spreadsheet
+#+DATE: 2017-06-17
+#+SLUG: literate-programming-in-fsharp
+
+[[http://orgmode.org/worg/org-contrib/babel/languages.html][Org Babel]] has a wide selection of supported programming languages.
+But [[http://fsharp.org/][F#]] was still missing even though it's well suited for [[http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html][Org
+spreadsheets]] by the use of strongly typed access to connected
+information via [[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/type-providers/][type providers]]. So I started an implementation of [[https://github.com/juergenhoetzel/ob-fsharp][Org
+Babel F#]] support.
+
+
+In the following use case I adapted an [[https://www.gnu.org/software/emacs/manual/eintr.html][Emacs Lisp]] implementation for
+[[https://vxlabs.com/2017/06/03/querying-restful-webservices-into-emacs-orgmode-tables/][querying the Kraken cryptocurrency exchange]]. I also used [[http://orgmode.org/cgit.cgi/org-mode.git/plain/lisp/ob-shell.el][Org Babel
+Shell]] to install and use [[https://fsprojects.github.io/Paket/][Paket]]: a dependency manager for .NET.
+
+The Source file for this document can be found here: [[file:kraken-fsharp.org][kraken-fsharp-org]]
+
+* Download Paket
+
+Use [[https://curl.haxx.se/][curl]] to download the [[https://fsprojects.github.io/Paket/][Paket]] cli tool:
+
+#+BEGIN_SRC bash
+  curl -L  -z paket.exe -o paket.exe \
+       https://github.com/fsprojects/Paket/releases/download/5.0.0/paket.exe
+#+END_SRC
+
+#+RESULTS:
+
+* Install FSharp.Data
+
+Reference [[http://fsharp.github.io/FSharp.Data/][FSharp.Data]] in the =paket.dependency= file:
+
+#+BEGIN_SRC bash :tangle paket.dependencies :eval never
+source https://nuget.org/api/v2
+nuget FSharp.Data
+#+END_SRC
+
+Install the [[https://www.nuget.org/][NuGet]] dependencies into the packages folder using:
+
+#+BEGIN_SRC bash :results silent
+mono paket.exe install
+#+END_SRC
+
+* Access The Kraken Ticker Restservice
+
+Instead of manually parsing the [[https://www.kraken.com/help/api][Kraken JSON API]] we let the compiler do the job by using the
+[[http://fsharp.github.io/FSharp.Data/library/JsonProvider.html][JSON Type Provider]]. The evaluation of this  Org Babel source block will result in named (=ticker=) result wich can
+be [[http://orgmode.org/manual/References.html][referenced]] later within an Org Table formula.
+
+#+NAME: kraken
+#+BEGIN_SRC fsharp :exports both
+#r @"packages/FSharp.Data/lib/net40/FSharp.Data.dll"
+open FSharp.Data
+
+type Kraken = JsonProvider<"https://api.kraken.com/0/public/Ticker?pair=ETHEUR,XBTEUR">
+let ticker = Kraken.GetSample()
+[float <| ticker.Result.Xethzeur.C.[0]; float <| ticker.Result.Xxbtzeur.C.[0]]
+#+END_SRC
+
+#+RESULTS: kraken
+| 317.0 | 2277.566 |
+
+* Access the ticker result within an Org Table
+
+The Result table can now be referenced in the following Org Table
+using the formula ~@2$3 = remote(kraken, @1$1);%.2f~ for Ethereum
+respectively ~@3$3 = remote(kraken, @1$2);%.2f~ for Bitcoin.
+
+
+|----------+-------+--------------+-----------------+----------|
+| Coin     | Units | Unit Price € | Current Value € | Fraction |
+|----------+-------+--------------+-----------------+----------|
+| Ethereum |     2 |       317.00 |          634.00 |     0.05 |
+| Bitcoin  |     5 |      2277.57 |        11387.85 |     0.95 |
+|----------+-------+--------------+-----------------+----------|
+| Total    |     7 |              |        12021.85 |          |
+|----------+-------+--------------+-----------------+----------|
+#+TBLFM: @2$3=remote(kraken, @1$1);%.2f::@2$4..@3$4=@@#$2 * @@#$3;%.2f::@2$5=@2$4/@4$4;%.2f::@3$3=remote(kraken, @1$2);%.2f::@3$5=@3$4/@4$4;%.2f::@4$2=vsum(@II..III)::@4$4=vsum(@II..III)
