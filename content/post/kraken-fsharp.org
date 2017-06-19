@@ -14,7 +14,7 @@ In the following use case I adapted an [[https://www.gnu.org/software/emacs/manu
 [[https://vxlabs.com/2017/06/03/querying-restful-webservices-into-emacs-orgmode-tables/][querying the Kraken cryptocurrency exchange]]. I also used [[http://orgmode.org/cgit.cgi/org-mode.git/plain/lisp/ob-shell.el][Org Babel
 Shell]] to install and use [[https://fsprojects.github.io/Paket/][Paket]]: a dependency manager for .NET.
 
-The Source file for this document can be found here: [[file:kraken-fsharp.org][kraken-fsharp-org]]
+The source file for this document can be found here: [[https://raw.githubusercontent.com/juergenhoetzel/blog.hoetzel.info/master/content/post/kraken-fsharp.org][kraken-fsharp.org]]
 
 * Download Paket
 
