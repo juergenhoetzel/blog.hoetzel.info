@@ -46,7 +46,7 @@ mono paket.exe install
 
 Instead of manually parsing the [[https://www.kraken.com/help/api][Kraken JSON API]] we let the compiler do the job by using the
 [[http://fsharp.github.io/FSharp.Data/library/JsonProvider.html][JSON Type Provider]]. The evaluation of this  Org Babel source block will result in named (=ticker=) result wich can
-be [[http://orgmode.org/manual/References.html][referenced]] later within an Org Table formula.
+be [[http://orgmode.org/manual/References.html][referenced]] from within an Org Table formula.
 
 #+NAME: kraken
 #+BEGIN_SRC fsharp :exports both
