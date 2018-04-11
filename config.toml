@@ -3,7 +3,7 @@ theme= "hugo-steam-theme"
 PygmentsCodeFences = true
 # solarizeddark
 pygmentsstyle = "solarizedlight"
-ignoreFiles = [ "\\.org", "\\.html" ]
+ignoreFiles = ["\\.html" ]
 
 
 [params]
@@ -14,7 +14,7 @@ ignoreFiles = [ "\\.org", "\\.html" ]
     copyright = "Released under the MIT license."
     # Link custom assets relative to /static
     favicon   = "favicon.ico"
-    customCSS = []
+    customCSS = ["css/custom.css"]
     customJS  = []
     # To provide some metadata for search engines and the about section in the footer
     # feel free to add a few information about you and your website.

@@ -1,0 +1,12 @@
+
+table td {
+    padding: .5em;
+    border-top: 1px solid #e3e9eb;
+    border-bottom: 1px solid #e3e9eb;
+    border-left: 1px solid #e3e9eb;
+    border-right: 1px solid #e3e9eb;
+}
+th {
+    font-weight: bold;
+    text-align: -internal-center;
+}
