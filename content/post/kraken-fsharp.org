@@ -50,7 +50,7 @@ be [[http://orgmode.org/manual/References.html][referenced]] from within an Org 
 
 #+NAME: kraken
 #+BEGIN_SRC fsharp :exports both
-#r @"packages/FSharp.Data/lib/net40/FSharp.Data.dll"
+#r @"packages/FSharp.Data/lib/net45/FSharp.Data.dll"
 open FSharp.Data
 
 type Kraken = JsonProvider<"https://api.kraken.com/0/public/Ticker?pair=ETHEUR,XBTEUR">
@@ -59,7 +59,7 @@ let ticker = Kraken.GetSample()
 #+END_SRC
 
 #+RESULTS: kraken
-| 317.0 | 2277.566 |
+| 338.97 | 5585.5 |
 
 * Access the ticker result within an Org Table
 
@@ -68,11 +68,10 @@ using the formula ~@2$3 = remote(kraken, @1$1);%.2f~ for Ethereum
 and ~@3$3 = remote(kraken, @1$2);%.2f~ for Bitcoin.
 
 
-|----------+-------+--------------+-----------------+----------|
 | Coin     | Units | Unit Price € | Current Value € | Fraction |
 |----------+-------+--------------+-----------------+----------|
-| Ethereum |     2 |       317.00 |          634.00 |     0.05 |
-| Bitcoin  |     5 |      2277.57 |        11387.85 |     0.95 |
+| Ethereum |     2 |       338.97 |          677.94 |     0.06 |
+| Bitcoin  |     5 |      5585.50 |        27927.50 |     2.32 |
 |----------+-------+--------------+-----------------+----------|
 | Total    |     7 |              |        12021.85 |          |
 |----------+-------+--------------+-----------------+----------|
