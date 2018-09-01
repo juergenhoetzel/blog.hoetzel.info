@@ -1,8 +1,12 @@
-baseurl = "http://localhost:1313/"
+baseurl = "https://blog.hoetzel.info/"
 theme= "hugo-steam-theme"
-PygmentsCodeFences = true
+# theme="minimal-academic"
+pygmentsCodeFences=true
+pygmentsStyle="solarized-dark"
+# PygmentsCodeFences = true
+# pygmentsUseClassic=true
 # solarizeddark
-pygmentsstyle = "solarizedlight"
+# pygmentsstyle = "solarizedlight"
 ignoreFiles = ["\\.html" ]
 
 
