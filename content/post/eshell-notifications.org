@@ -1,0 +1,51 @@
+#+TITLE: Get desktop notifications from Emacs shell commands
+#+DESCRIPTION: Using Eshell hooks to send desktop notifications
+#+hugo_section: images-in-content
+#+twitter_card: summary
+#+twitter_site: @juergenhoetzel
+#+twitter_image: https://blog.hoetzel.info/img/eshell-small.png
+#+DATE: 2018-08-31
+#+SLUG: eshell notifications
+
+When interacting with the operating systems I always use [[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html][Eshell]]
+because it integrates seamlessly with Emacs, supports (remote) [[https://www.gnu.org/software/tramp/][TRAMP]]
+file names and also works nice on Windows.
+
+After starting shell commands (like long running build jobs) I often lose track the task when switching buffers.
+
+Thanks to Emacs [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.html][hooks]] mechanism you can customize Emacs to call a
+elisp function when an external command finishes.
+
+I use [[https://github.com/jwiegley][John Wiegleys]] excellent [[https://github.com/jwiegley/alert][alert]] package to send
+desktop notifications:
+
+#+BEGIN_SRC elisp
+(require 'alert)
+
+(defun eshell-command-alert (process status)
+  "Send `alert' with severity based on STATUS when PROCESS finished."
+  (let* ((cmd (process-command process))
+	   (buffer (process-buffer process))
+	   (msg (format "%s: %s" (mapconcat 'identity cmd " ")  status)))
+    (if (string-prefix-p "finished" status)
+	  (alert msg :buffer buffer :severity  'normal)
+	(alert msg :buffer buffer :severity 'urgent))))
+
+(add-hook 'eshell-kill-hook #'eshell-command-alert)
+#+END_SRC
+
+[[https://github.com/jwiegley/alert][alert]] rules can be setup programmatically. In my case I only want to get 
+notified if the corresponding buffer is not visible:
+
+#+BEGIN_SRC elisp
+(alert-add-rule :status   '(buried)     ;only send alert when buffer not visible
+		  :mode     'eshell-mode
+		  :style 'notifications)
+#+END_SRC
+
+This even works on [[https://www.gnu.org/software/tramp/][TRAMP]]
+buffers.  Below is a screenshot showing a Gnome desktop notification
+of a failed =make= command.
+
+#+CAPTION: Gnome Desktop notifications
+[[file:../../img/eshell.png]]
