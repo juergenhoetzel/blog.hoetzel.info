@@ -6,9 +6,10 @@ pygmentsStyle="solarized-dark"
 # PygmentsCodeFences = true
 # pygmentsUseClassic=true
 # solarizeddark
-# pygmentsstyle = "solarizedlight"
-ignoreFiles = ["\\.html" ]
-
+pygmentsstyle = "solarizedlight"
+ignoreFiles = [ "\\.org", "\\.html" ]
+disqusShortname = "juergenhoetzel"
+>>>>>>> Stashed changes
 
 [params]
     DateForm = "2.1.2006"
