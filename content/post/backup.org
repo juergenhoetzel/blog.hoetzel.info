@@ -1,0 +1,124 @@
+#+title: Automate (offline) backups with restic and systemd
+#+DESCRIPTION: Use pass, systemd path units and GPG pinentry to automate your backups without revealing your passwords
+#+hugo_section: images-in-content
+#+twitter_card: summary
+#+twitter_image: https://blog.hoetzel.info/img/restic.png
+#+DATE: 2020-02-17
+#+SLUG: automate restic backups
+
+This blog post builds on the content of the fedora magazine article [[https://fedoramagazine.org/automate-backups-with-restic-and-systemd/%5D%5Bhttps://fedoramagazine.org/automate-backups-with-restic-and-systemd/][Automate backups with restic and systemd]].
+
+
+2 important features were missing in the article for my use case:
+
+- Don't reveal restic passwords in plain-text files
+- Backup to offline storage (USB flash drive)
+
+Fortunately modern Linux distributions offer all mechanisms to
+implement these 2 requirements:
+
+- [[http://storaged.org/][Udisks(2)]] allows non-privileged users to mount external USB-disks automatically
+- [[https://www.freedesktop.org/software/systemd/man/systemd.path.html][systemd.path]] allows path-based activation of systemd units
+- [[https://restic.net/][restic]] can be configured call an external command to retrieve the password
+- [[https://www.passwordstore.org/][pass]] the UNIX password manager uses [[https://gnupg.org/][GPG]], which in turn uses [[https://gnupg.org/related_software/pinentry/][pinentry]]
+  to retrieve the =pass= master-password
+
+The remaining task is to combine the mechanisms so that the backup
+starts automatically when the USB flash drive is inserted. Furthermore a
+status message should be displayed after the backup.
+
+
+* Udisks automount
+
+Storage devices that are plugged into the system mount automatically
+as long as [[https://www.freedesktop.org/software/polkit/docs/latest/polkit.8.html][polkit]] does not get in the way. The default =udisks2=
+policy should allow users on local consoles to mount the file systems:
+#+BEGIN_SRC bash :results value verbatim
+pkaction  -a org.freedesktop.udisks2.filesystem-mount -v
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+org.freedesktop.udisks2.filesystem-mount:
+  description:       Mount a filesystem
+  message:           Authentication is required to mount the filesystem
+  vendor:            The Udisks Project
+  vendor_url:        https://github.com/storaged-project/udisks
+  icon:              drive-removable-media
+  implicit any:      auth_admin
+  implicit inactive: auth_admin
+  implicit active:   yes
+
+#+end_example
+
+=implicit active= applies to clients in active sessions on local
+ consoles. The value =yes= means that mounting file systems doesn't require extra
+ authentication.
+
+You can use =pkcheck= to check if you have access from your session:
+#+BEGIN_SRC bash
+pkcheck -u -p $$ -a org.freedesktop.udisks2.filesystem-mount && echo can mount!
+#+END_SRC
+
+#+RESULTS:
+: can mount!
+
+* systemd user units
+
+The following configurations assume that the repository is located in
+the subdirectory =restic= on a USB drive with the label =RESTIC=.
+
+#+CAPTION: ~/.config/systemd/user/backup.service
+#+BEGIN_SRC INI :tangle backup.service
+[Unit]
+Description=Restic backup
+
+[Service]
+Type=simple
+Environment=RESTIC_PASSWORD_COMMAND="pass Backup/restic@flashdrive"
+Environment=RESTIC_REPOSITORY=/run/media/juergen/RESTIC/restic
+Environment=ICON=/usr/share/icons/Adwaita/scalable/devices/drive-harddisk-usb-symbolic.svg
+Type=oneshot
+ExecStart=restic backup %h/shared
+ExecStopPost=-bash -c '[[ $EXIT_STATUS == 0 ]] &&  notify-send "Backup finished: Drive can be removed."'
+ExecStopPost=-bash -c '[[ $EXIT_STATUS != 0 ]] &&  notify-send "Backup failed." -u critical'
+#+END_SRC
+
+[[https://developer.gnome.org/notification-spec/][Desktop Notifications]] are used in =ExecStartPost= commands to inform
+the user about the exit status of =restic=:
+
+[[file:../../img/backup-notification.png]]
+
+To automatically start the backup when the USB drive is mounted we
+create the file =backup.path= with the following content:
+
+#+CAPTION: ~/.config/systemd/user/backup.path
+#+BEGIN_SRC INI :tangle backup.path
+[Unit]
+Description=Restic backup Directory Watch
+
+[Path]
+DirectoryNotEmpty=/run/media/juergen/RESTIC/restic
+
+#+END_SRC
+#+RESULTS:
+
+Don't forget to =enable= and =start= the path unit:
+
+#+BEGIN_SRC bash
+systemctl --user enable backup.path
+systemctl --user start backup.path
+#+END_SRC
+
+* Conclusion
+
+I also thought about to implement a reminder (via =notify-send=) for backups
+using timer jobs but came to the conclusion that this is
+over-engineering. I use [[https://orgmode.org/manual/Repeated-tasks.html][Org mode repeated tasks]] to keep track of my
+offline backup tasks.
+
+I left out the pruning part to keep the article short and clear.
+Don't use =restic prune= in =ExecStop=: It is not suitable for
+long-running processes (=TimeoutAbortSec= applies here).
+
+
