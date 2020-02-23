@@ -6,7 +6,7 @@
 #+DATE: 2020-02-17
 #+SLUG: automate restic backups
 
-This blog post builds on the content of the fedora magazine article [[https://fedoramagazine.org/automate-backups-with-restic-and-systemd/%5D%5Bhttps://fedoramagazine.org/automate-backups-with-restic-and-systemd/][Automate backups with restic and systemd]].
+This blog post builds on the content of the fedora magazine article [[https://fedoramagazine.org/automate-backups-with-restic-and-systemd/][Automate backups with restic and systemd]].
 
 
 2 important features were missing in the article for my use case:
