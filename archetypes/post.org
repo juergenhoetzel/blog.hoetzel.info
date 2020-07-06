@@ -1,0 +1,8 @@
+#+title: "{{ replace .Name "-" " " | title }}"
+#+DESCRIPTION: ** PROVIDE DESCRIPTION here **
+#+hugo_section: images-in-content
+#+twitter_card: summary
+#+twitter_image: ** IMAGE **
+#+DATE: {{ .Date }}
+
+
