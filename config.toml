@@ -1,39 +1,24 @@
 baseurl = "https://blog.hoetzel.info/"
-theme= "hugo-steam-theme"
-# theme="minimal-academic"
+theme= "m10c"
+# theme="ananke"
 pygmentsCodeFences=true
 pygmentsStyle="solarized-dark"
 # PygmentsCodeFences = true
 # pygmentsUseClassic=true
 # solarizeddark
 pygmentsstyle = "solarizedlight"
-ignoreFiles = [ "\\.org", "\\.html" ]
-disqusShortname = "juergenhoetzel"
->>>>>>> Stashed changes
+ignoreFiles = [ "\\.html" ]
+# disqusShortname = "juergenhoetzel"
 
 [params]
     DateForm = "2.1.2006"
     themecolor = "green"
-    title = "Jürgen Hötzel"
+    author = "Jürgen Hötzel"
     # subtitle = "a minimal theme for ~~Ghost~~ Hugo"
-    copyright = "Released under the MIT license."
-    # Link custom assets relative to /static
-    favicon   = "favicon.ico"
-    customCSS = ["css/custom.css"]
-    customJS  = []
-    # To provide some metadata for search engines and the about section in the footer
-    # feel free to add a few information about you and your website.
     name = "Jürgen Hötzel"
-    bio = "Emacs/FP aficionado"
-    description = "I do stuff with my bare hands"
-   # Link your social networks (optional)
-    location = ""
+    bio = "I code in Emacs on Arch Linux with my bare hands"
+    description = "Musings about Emacs, Arch Linux 🐧 and Crypto 🔑"
     twitter = "juergenhoetzel"
     stackoverflow = "users/308679"
-    linkedin = ""
-    googleplus = ""
-    facebook = ""
-    instagram = ""
     github = "juergenhoetzel"
-    gitlab = ""
-    bitbucket = ""
+
