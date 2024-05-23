@@ -1,0 +1,65 @@
+#+title: Gnome Search Provider: Emacs Integration
+#+DESCRIPTION: An integration of the Gnome search framework into Emacs
+#+hugo_section: images-in-content
+#+twitter_card: summary
+#+tags[]: emacs gnome
+#+twitter_image: ** IMAGE **
+#+DATE: 2024-05-23T17:38:13+02:00
+
+
+* Rationale
+
+Emacs users try to avoid leaving their editor for other tasks.
+There is an shell ([[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html][Eshell: The Emacs Shell]]), an integration into [[https://www.gnu.org/software/emacs/manual/html_node/auth/Secret-Service-API.html][Secret
+Service API (Emacs auth-source Library 0.3)]] and countless other
+integrations.
+
+Search is a central element of the Gnome desktop environment.  Many
+applications implement the [[https://developer.gnome.org/documentation/tutorials/search-provider.html][Search Provider]] =dbus= interface to
+provide suitable results.
+
+The aim of this package is to make these search results also available
+within the Emacs editor.
+
+* Implementation
+
+To implement the interactive command =consult-gnome-search= i used the awesome [[https://github.com/minad/consult][minad/consult - Consulting completing-read]] package.
+
+=consult--read= enhances the existing Emacs completing-read with live previews of candidates, narrowing capabilities to candidate groups and asynchronously generated candidate lists.
+
+* Screenshot
+
+A screenshot is worth a thousand words:
+
+[[file:../../img/gnome-search-minibuffer.png]]
+
+* Result Activation
+
+The dbus-method =ActivateResult= is used to open the selected result in the application implementing the [[https://developer.gnome.org/documentation/tutorials/search-provider.html][Search Provider]].
+Nautilus for example leverages [[https://portland.freedesktop.org/doc/xdg-mime.html][xdg-mime]]  to delelegate the activation to the configured application.
+
+You most likely wan't to set:
+#+begin_src bash
+xdg-mime default emacsclient.desktop text/plain
+xdg-mime default emacsclient.desktop text/x-csrc
+#+end_src
+
+#+RESULTS:
+
+to edit edit the selected files within Emacs.
+
+* Installation
+
+Available via =package-vc-install= (Emacs 29):
+
+#+begin_src elisp
+  (package-vc-install "https://github.com/juergenhoetzel/consult-gnome-search")
+#+end_src
+
+I plan to publish the package later on [[https://melpa.org/][MELPA]]. 
+
+
+* Links
+
+- [[https://github.com/juergenhoetzel/consult-gnome-search][GitHub - juergenhoetzel/consult-gnome-search: Gnome Search Provider: Emacs Integration]]
+- [[https://developer.gnome.org/documentation/tutorials/search-provider.html][Writing a Search Provider - GNOME Developer Documentation]]
