@@ -2,6 +2,7 @@
 #+DESCRIPTION: Using Eshell hooks to send desktop notifications
 #+hugo_section: images-in-content
 #+twitter_card: summary
+#+tags[]: emacs
 #+twitter_site: @juergenhoetzel
 #+twitter_image: https://blog.hoetzel.info/img/eshell-small.png
 #+DATE: 2018-08-31

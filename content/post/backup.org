@@ -1,6 +1,7 @@
 #+title: Automate (offline) backups with restic and systemd
 #+DESCRIPTION: Use pass, systemd path units and GPG pinentry to automate your backups without revealing your passwords
 #+hugo_section: images-in-content
+#+tags[]: systemd restic
 #+twitter_card: summary
 #+twitter_image: https://blog.hoetzel.info/img/restic.png
 #+DATE: 2020-02-17

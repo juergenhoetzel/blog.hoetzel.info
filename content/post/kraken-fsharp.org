@@ -1,5 +1,6 @@
 #+TITLE: Literate programming in F-Sharp using org-mode
 #+DESCRIPTION: Use fsharp-babel in your Org spreadsheet
+#+tags[]: emacs fsharp
 #+DATE: 2017-06-17
 #+SLUG: literate-programming-in-fsharp
 

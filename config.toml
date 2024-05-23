@@ -1,3 +1,4 @@
+
 baseurl = "https://blog.hoetzel.info/"
 theme= "m10c"
 # theme="ananke"
@@ -10,6 +11,19 @@ pygmentsstyle = "solarizedlight"
 ignoreFiles = [ "\\.html" ]
 # disqusShortname = "juergenhoetzel"
 
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 2
+
+
 [params]
     DateForm = "2.1.2006"
     themecolor = "green"
@@ -17,7 +31,7 @@ ignoreFiles = [ "\\.html" ]
     # subtitle = "a minimal theme for ~~Ghost~~ Hugo"
     name = "Jürgen Hötzel"
     bio = "I code in Emacs on Arch Linux with my bare hands"
-    description = "Musings about Emacs, Arch Linux 🐧 and Crypto 🔑"
+    description = "Musings on Emacs, Arch Linux 🐧 and Crypto 🔑"
     twitter = "juergenhoetzel"
     stackoverflow = "users/308679"
     github = "juergenhoetzel"
