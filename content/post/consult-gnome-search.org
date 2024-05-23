@@ -2,6 +2,7 @@
 #+DESCRIPTION: An integration of the Gnome search framework into Emacs
 #+hugo_section: images-in-content
 #+twitter_card: summary
+#+images[]: ../../img/consult-gnome-search-twitter.png
 #+tags[]: emacs gnome
 #+twitter_image: ** IMAGE **
 #+DATE: 2024-05-23T17:38:13+02:00
